@@ -22,11 +22,17 @@ function App() {
         );
         console.log(response);
         const data = await response.json();
-        setConverted(data.rates[toCurrency]);
-        setIsLoading(false);
+        if (data.rates && data.rates[toCurrency] !== undefined) {
+          setConverted(data.rates[toCurrency]);
+        } else {
+          setConverted("Conversion not available");
+        }
+        // setConverted(data.rates[toCurrency]);
         // console.log(data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (fromCurrency === toCurrency) return setConverted(amount);
